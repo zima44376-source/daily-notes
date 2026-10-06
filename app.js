@@ -51,6 +51,18 @@
     const el = $('toast'); el.textContent = message; el.classList.add('show');
     clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
   }
+  function resizeTextarea(input) {
+    if (!input.getClientRects().length) return;
+    input.style.height = 'auto';
+    input.style.height = `${input.scrollHeight}px`;
+  }
+  function resizeVisibleTextareas(root = document) {
+    root.querySelectorAll('textarea').forEach(resizeTextarea);
+  }
+  document.addEventListener('input', (event) => {
+    if (event.target instanceof HTMLTextAreaElement) resizeTextarea(event.target);
+  });
+  window.addEventListener('resize', () => resizeVisibleTextareas());
   function render() {
     const date = fromKey(selectedDate);
     const isToday = selectedDate === todayKey();
@@ -86,7 +98,7 @@
       heading.hidden = learning.length === 1;
       form.hidden = learning.length > 1 && index !== expandedIndex;
       toggle.setAttribute('aria-expanded', String(!form.hidden));
-      toggle.addEventListener('click', () => { form.hidden = !form.hidden; toggle.setAttribute('aria-expanded', String(!form.hidden)); });
+      toggle.addEventListener('click', () => { form.hidden = !form.hidden; toggle.setAttribute('aria-expanded', String(!form.hidden)); if (!form.hidden) resizeVisibleTextareas(form); });
       section.querySelector('.remove-learning').addEventListener('click', () => {
         if (hasLearningContent(entry) && !confirm('删除这条学习记录？')) return;
         ensureLearning(ensureDay()).splice(index, 1);
@@ -104,6 +116,7 @@
         });
       });
       list.append(section);
+      resizeVisibleTextareas(section);
     });
     $('learning-count').textContent = `${learning.length} / 3`;
     $('add-learning').firstChild.textContent = learning.length >= 3 ? '最多记录 3 项 ' : '＋ 添加一项学习记录 ';
@@ -126,7 +139,7 @@
       heading.hidden = reflections.length === 1;
       form.hidden = reflections.length > 1 && index !== expandedIndex;
       toggle.setAttribute('aria-expanded', String(!form.hidden));
-      toggle.addEventListener('click', () => { form.hidden = !form.hidden; toggle.setAttribute('aria-expanded', String(!form.hidden)); });
+      toggle.addEventListener('click', () => { form.hidden = !form.hidden; toggle.setAttribute('aria-expanded', String(!form.hidden)); if (!form.hidden) resizeVisibleTextareas(form); });
       section.querySelector('.remove-learning').addEventListener('click', () => {
         if (hasReflectionContent(entry) && !confirm('删除这条反思记录？')) return;
         ensureReflections(ensureDay()).splice(index, 1);
@@ -142,6 +155,7 @@
         });
       });
       list.append(section);
+      resizeVisibleTextareas(section);
     });
     $('reflection-count').textContent = `${reflections.length} / 3`;
     $('add-reflection').firstChild.textContent = reflections.length >= 3 ? '最多记录 3 项 ' : '＋ 添加一项反思 ';
