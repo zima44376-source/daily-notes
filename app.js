@@ -114,9 +114,9 @@
     const list = $('reflection-list'); list.replaceChildren();
     reflections.forEach((entry, index) => {
       const section = document.createElement('section'); section.className = 'reflection-entry';
-      section.innerHTML = '<div class="reflection-entry-heading"><button type="button" class="entry-toggle"><span class="entry-label"></span><span class="entry-summary"></span><span class="entry-chevron" aria-hidden="true">⌄</span></button><button type="button" class="remove-learning">删除这项</button></div><div class="reflection-fields"><label class="field full"><span>今天做得好的一件事</span><textarea data-reflection-field="good" rows="2" placeholder="哪怕是一件很小的事…"></textarea></label><label class="field full"><span>遇到了什么困难</span><textarea data-reflection-field="hard" rows="2" placeholder="有什么地方让你停了下来？"></textarea></label><label class="field full"><span>明天想怎么调整</span><textarea data-reflection-field="reflectionNext" rows="2" placeholder="给明天的自己一个具体建议"></textarea></label></div>';
+      section.innerHTML = '<div class="reflection-entry-heading"><button type="button" class="entry-toggle"><span class="entry-label"></span><span class="entry-summary"></span><span class="entry-chevron" aria-hidden="true">⌄</span></button><button type="button" class="remove-learning">删除这项</button></div><div class="reflection-fields"><label class="field full"><span>今日反思事情</span><textarea data-reflection-field="good" rows="2" placeholder="写下一件值得反思的事…"></textarea></label><label class="field full"><span>遇到了什么困难</span><textarea data-reflection-field="hard" rows="2" placeholder="有什么地方让你停了下来？"></textarea></label><label class="field full"><span>明天想怎么调整</span><textarea data-reflection-field="reflectionNext" rows="2" placeholder="给明天的自己一个具体建议"></textarea></label></div>';
       const heading = section.querySelector('.reflection-entry-heading');
-      section.querySelector('.reflection-fields .field:first-child > span').textContent = selectedDate === todayKey() ? '今天做得好的一件事' : '那天做得好的一件事';
+      section.querySelector('.reflection-fields .field:first-child > span').textContent = selectedDate === todayKey() ? '今日反思事情' : '当日反思事情';
       const toggle = heading.querySelector('.entry-toggle');
       const form = section.querySelector('.reflection-fields');
       const summary = heading.querySelector('.entry-summary');
